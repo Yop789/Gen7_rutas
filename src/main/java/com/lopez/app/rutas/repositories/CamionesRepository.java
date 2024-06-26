@@ -37,8 +37,18 @@ public class CamionesRepository implements IRepository<Camion> {
 
     @Override
     public Camion get(Long id) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        Camion camion = null;
+        try (PreparedStatement stm = conn.prepareStatement("SELECT * FROM CAMIONES WHERE ID_CAMION=?")) {
+            stm.setLong(1, id);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    camion = this.getCamion(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return camion;
     }
 
     @Override

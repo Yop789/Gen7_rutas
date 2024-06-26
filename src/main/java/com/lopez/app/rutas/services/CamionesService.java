@@ -41,8 +41,11 @@ public class CamionesService implements IService<Camion> {
 
     @Override
     public Optional<Camion> getByID(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByID'");
+        try {
+            return Optional.ofNullable(camionesRepo.get(id));
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
     }
 
 }
