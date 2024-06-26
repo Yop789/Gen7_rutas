@@ -54,6 +54,7 @@ List<Camion> camiones =  (List<Camion>) request.getAttribute("camiones");
                   <th>Modelo</th>
                   <th>Marca</th>
                   <th>Capacidad</th>
+                  <th>Kilómetros</th>
                   <th></th>
                   <th></th>
                   <th></th>
@@ -69,6 +70,7 @@ List<Camion> camiones =  (List<Camion>) request.getAttribute("camiones");
                   <td><%=c.getModelo()%></td>
                   <td><%=c.getMarca()%></td>
                   <td><%=c.getCapacidad()%></td>
+                  <td><%=c.getKilometros()%></td>
                   <td>
                     <a
                       href="<%=request.getContextPath()%>/camiones/detalle?id=<%=c.getId()%>"

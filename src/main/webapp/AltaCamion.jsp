@@ -66,11 +66,11 @@ List<Integer> modelos = (List<Integer>) request.getAttribute("anios");
                 name="tipoCamion"
                 class="form-control"
                 aria-label="Default select example"
-                value="<%= request.getParameter("tipoCamion") != null ? request.getParameter("tipoCamion") : "" %>"
+                
               >
-                <option selected  >---selecciona un tipo---</option>
+                <option  >---selecciona un tipo---</option>
                 <% for (Tipos c : Tipos.values()) { %>
-                  <option value="<%= c %>"><%= c %></option>
+                  <option value="<%= c %>" <%= c.equals(Tipos.valueOf(request.getParameter("tipoCamion")) )? "selected" : "" %>><%= c %></option>
                 <% } %>
               </select>
               <% if (errores != null && errores.containsKey("tipoCamion")) { %>
