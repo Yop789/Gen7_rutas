@@ -28,11 +28,7 @@ public class ChoferesService implements IService<Chofer> {
 
     @Override
     public Optional<Chofer> getByID(Long id) {
-        try {
-            return choferesRepo.get(id);
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return Optional.empty();
     }
 
     @Override
