@@ -47,6 +47,12 @@ public class ChoferesService implements IService<Chofer> {
 
     @Override
     public void eliminar(Long id) {
+        try {
+            choferesRepo.eliminar(id);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
 
     }
 }

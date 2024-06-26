@@ -94,8 +94,12 @@ public class CoferesRepository implements IRepository<Chofer> {
 
     @Override
     public void eliminar(Long id) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eliminar'");
+        String sql = "DELETE FROM CHOFERES WHERE ID_CHOFER=?";
+        try (PreparedStatement stm = conn.prepareStatement(sql)) {
+            stm.setLong(1, id);
+            stm.executeUpdate();
+        }
+
     }
 
     private Chofer getChofer(ResultSet rs) throws SQLException {
