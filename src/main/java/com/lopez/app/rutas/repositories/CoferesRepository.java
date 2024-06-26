@@ -32,8 +32,20 @@ public class CoferesRepository implements IRepository<Chofer> {
 
     @Override
     public Chofer get(Long id) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        Chofer chofer = null;
+        try (PreparedStatement stm = conn.prepareStatement("SELECT * FROM CHOFERES WHERE ID_CHOFER=?")) {
+            stm.setLong(1, id);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    chofer = this.getChofer(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+
+        return chofer;
     }
 
     @Override
@@ -46,7 +58,7 @@ public class CoferesRepository implements IRepository<Chofer> {
                     "where ID_CHOFER=?";
 
         } else {
-            sql = "INSERT INTO CHOFERES(ID_CHOFER, NOMBRE, "+
+            sql = "INSERT INTO CHOFERES(ID_CHOFER, NOMBRE, " +
                     "APATERNO, AMATERNO, LICENCIAS, TELEFONO," +
                     "FECHA_NACIMIENTO, DISPONIBILIDAD )" +
                     "VALUES (-1,?,?,?,?,?,?,?)";
