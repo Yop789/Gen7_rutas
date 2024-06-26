@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.lopez.app.rutas.models.Camion;
-import com.lopez.app.rutas.models.Chofer;
 import com.lopez.app.rutas.repositories.CamionesRepository;
-import com.lopez.app.rutas.repositories.CoferesRepository;
 import com.lopez.app.rutas.repositories.IRepository;
 
 public class CamionesService implements IService<Camion> {

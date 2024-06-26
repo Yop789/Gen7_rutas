@@ -38,6 +38,7 @@ public class CoferesRepository implements IRepository<Chofer> {
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
                     chofer = this.getChofer(rs);
+
                 }
             }
 
