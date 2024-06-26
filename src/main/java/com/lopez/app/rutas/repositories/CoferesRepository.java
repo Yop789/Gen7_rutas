@@ -53,10 +53,10 @@ public class CoferesRepository implements IRepository<Chofer> {
     public void guardar(Chofer chofer) throws SQLException {
         String sql = "";
         if (chofer.getId() != null && chofer.getId() > 0) {
-            sql = "Update choferes set NOMBRE=?, APATERNO=?, " +
-                    "AMATERNO=?, LICENCIAS=?, TELEFONO=? " +
+            sql = "UPDATE CHOFERES SET NOMBRE=?, APATERNO=?, " +
+                    "AMATERNO=?, LICENCIAS=?, TELEFONO=?, " +
                     "FECHA_NACIMIENTO=?, DISPONIBILIDAD=? " +
-                    "where ID_CHOFER=?";
+                    "WHERE ID_CHOFER=?";
 
         } else {
             sql = "INSERT INTO CHOFERES(ID_CHOFER, NOMBRE, " +

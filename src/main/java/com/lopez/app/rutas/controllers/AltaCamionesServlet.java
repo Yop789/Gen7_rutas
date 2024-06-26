@@ -25,19 +25,6 @@ public class AltaCamionesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> tiposCamiones = new ArrayList<>();
-        for (Tipos tipos : Tipos.values()) {
-            tiposCamiones.add(tipos.toString());
-        }
-
-        req.setAttribute("tipos", tiposCamiones);
-
-        List<String> marcas = new ArrayList<>();
-        for (Marcas tipo : Marcas.values()) {
-            marcas.add(tipo.toString());
-        }
-
-        req.setAttribute("marcas", marcas);
 
         // Crear una lista de años desde el año actual + 1 hasta el año actual - 20
         List<Integer> anios = new ArrayList<>();

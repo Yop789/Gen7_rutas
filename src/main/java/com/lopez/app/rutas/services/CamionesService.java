@@ -18,6 +18,11 @@ public class CamionesService implements IService<Camion> {
 
     @Override
     public void eliminar(Long id) {
+        try {
+            camionesRepo.eliminar(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
 
     }
 

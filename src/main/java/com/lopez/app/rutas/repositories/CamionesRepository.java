@@ -93,8 +93,11 @@ public class CamionesRepository implements IRepository<Camion> {
 
     @Override
     public void eliminar(Long id) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eliminar'");
+        String sql = "DELETE FROM CAMIONES WHERE ID_CAMION=?";
+        try (PreparedStatement stm = conn.prepareStatement(sql)) {
+            stm.setLong(1, id);
+            stm.executeUpdate();
+        }
     }
 
     private Camion getCamion(ResultSet rs) throws SQLException {
