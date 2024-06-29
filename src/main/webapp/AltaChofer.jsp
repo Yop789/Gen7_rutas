@@ -93,7 +93,7 @@ import="java.util.*" %>
 
                     <div class="form-group">
                         <label for="">Fecha Nacimiento</label>
-                        <input type="text" id="fechaNacimiento" name="fechaNacimiento" class="form-control" value="${param.fechaNacimiento}">
+                        <input type="date" id="fechaNacimiento" placeholder="dd/mm/yyyy"name="fechaNacimiento" class="form-control" value="${param.fechaNacimiento}">
                         <% if(errores != null && errores.containsKey("fechaNacimiento")){
                             out.println("<span class='text-danger'>" + errores.get("fechaNacimiento") + "</span>");
                         }

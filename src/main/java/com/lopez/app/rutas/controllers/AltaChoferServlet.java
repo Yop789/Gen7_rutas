@@ -11,8 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,9 @@ public class AltaChoferServlet extends HttpServlet {
         Connection con = (Connection) req.getAttribute("conn");
         IService<Chofer> service = new ChoferesService(con);
 
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+
         String nombre = req.getParameter("nombre");
         String apPaternos = req.getParameter("apPaternos");
         String apMaternos = req.getParameter("apMaternos");
@@ -36,7 +41,9 @@ public class AltaChoferServlet extends HttpServlet {
         String fechaNacimiento = req.getParameter("fechaNacimiento");
         LocalDate fecha;
         try {
-            fecha = LocalDate.parse(fechaNacimiento, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            Date fechaInput = inputFormat.parse(fechaNacimiento);
+            String formato = outputFormat.format(fechaInput);
+            fecha = LocalDate.parse(formato, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         } catch (Exception e) {
             fecha = null;
         }

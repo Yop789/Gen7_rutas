@@ -5,7 +5,7 @@
 <%
 //recuperamos la lista de choferes que seteamos en el request desde el servlet
 Map<String,String> errores = (Map<String, String>) request.getAttribute("errores");
-List<Chofer> choferes =  (List<Chofer>) request.getAttribute("choferes");
+List<Ruta> rutas =  (List<Ruta>) request.getAttribute("rutas");
 %>
 
 <!DOCTYPE html>
@@ -38,13 +38,13 @@ List<Chofer> choferes =  (List<Chofer>) request.getAttribute("choferes");
     <div class="container">
       <div class="row">
         <div class="col-6">
-          <h2>listado choferes</h2>
+          <h2>listado Rutas</h2>
         </div>
         <div class="col-6">
           <a
-            href="<%=request.getContextPath()%>/choferes/alta"
+            href="<%=request.getContextPath()%>/rutas/alta"
             class="btn btn-success"
-            >alta chofer</a
+            >Alta Rutas</a
           >
         </div>
       </div>
@@ -59,50 +59,32 @@ List<Chofer> choferes =  (List<Chofer>) request.getAttribute("choferes");
             >
               <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>Nombre</th>
-                  <th>Ap. Paterno</th>
-                  <th>Ap. Materno</th>
-                  <th>Licencia</th>
-                  <th>Teléfono</th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
+                  <th>ID</th>
+                  <th>ID_CAMION</th>
+                  <th>ID_DIRECCION_ORIGEN</th>
+                  <th>ID_DIRECCION_DESTINO</th>
+                  <th>ID_CHOFER</th>
+                  <th>DISTANCIA</th>
+                  <th>FECHA_SALIDA</th>
+                  <th>FECHA_LLEGADA_ESTIMADA</th>
+                  <th>FECHA_LLEGADA_REAL</th>
+                  <th>A_TIEMPO</th>
                 </tr>
               </thead>
 
               <tbody>
-                <% for(Chofer c : choferes){ %>
+                <% for(Ruta c : rutas){ %>
                 <tr>
                   <td><%=c.getId()%></td>
-                  <td><%=c.getNombre()%></td>
-                  <td><%=c.getApPaternos()%></td>
-                  <td><%=c.getApMaternos()%></td>
-                  <td><%=c.getLicencias()%></td>
-                  <td><%=c.getTelefono()%></td>
-                  <td>
-                    <a
-                      href="<%=request.getContextPath()%>/choferes/detalle?id=<%=c.getId()%>"
-                      class="btn btn-success"
-                      >detalle</a
-                    >
-                  </td>
-
-                  <td>
-                    <a
-                      href="<%=request.getContextPath()%>/choferes/editar?id=<%=c.getId()%>"
-                      class="btn btn-primary"
-                      >editar</a
-                    >
-                  </td>
-
-                  <td>
-                    <a
-                      href="<%=request.getContextPath()%>/choferes/eliminar?id=<%=c.getId()%>"
-                      class="btn btn-danger"
-                      >eliminar</a
-                    >
-                  </td>
+                  <td><%=c.getCamionId()%></td>
+                  <td><%=c.getChoferId()%></td>
+                  <td><%=c.getDireccionOriginalId()%></td>
+                  <td><%=c.getDireccionDestinoId()%></td>
+                  <td><%=c.getDiatancio()%></td>
+                  <td><%=c.getFechaSalida()%></td>
+                  <td><%=c.getFechaLlegadaEstimada()%></td>
+                  <td><%=c.getFechaLlegadaReal()%></td>
+                  <td><%=c.getaTiempo()%></td>                 
                 </tr>
                 <%}%>
               </tbody>

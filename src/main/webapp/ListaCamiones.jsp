@@ -5,6 +5,7 @@
 <%
 //recuperamos la lista de choferes que seteamos en el request desde el servlet
 List<Camion> camiones =  (List<Camion>) request.getAttribute("camiones");
+Map<String,String> errores = (Map<String, String>) request.getAttribute("errores");
 %>
 
 <!DOCTYPE html>
@@ -23,6 +24,16 @@ List<Camion> camiones =  (List<Camion>) request.getAttribute("camiones");
 
   <%@ include file="Header.jsp" %>
 
+   <br>
+          <% if(errores != null && errores.size() > 0){ %>
+            <ul class="alert alert-danger mx-5 px-5">
+
+              <% for(String e : errores.values()){ %>
+                <li><%=e%></li>
+              <% } %>
+
+            </ul>
+          <% } %>
 
     <div class="container">
       <div class="row">

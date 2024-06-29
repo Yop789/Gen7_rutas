@@ -82,6 +82,11 @@
                   ></a>
                   <ul class="dropdown-menu">
                     <li>
+                      <a href="<%=request.getContextPath()%>/rutas/listar"
+                        >Lista Rutas</a
+                      >
+                    </li>
+                    <li>
                       <a href="<%=request.getContextPath()%>/rutas/alta"
                         >Alta Ruta</a
                       >

@@ -27,6 +27,7 @@ public class AltaCamionesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // Crear una lista de años desde el año actual + 1 hasta el año actual - 20
+        cargarDatosFormulario(req);
         List<Integer> anios = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         int anioActual = calendar.get(Calendar.YEAR) + 1;

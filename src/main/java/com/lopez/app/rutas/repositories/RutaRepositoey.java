@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.lopez.app.rutas.models.Ruta;
@@ -18,8 +20,19 @@ public class RutaRepositoey implements IRutasRepository {
 
     @Override
     public List<Ruta> lista() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'lista'");
+        String sql = "";
+        List<Ruta> rutas = new ArrayList<>();
+        sql = "SELECT * FROM RUTAS";
+        try (Statement stm = this.conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql)) {
+            while (rs.next()) {
+                Ruta a = this.getRuta(rs);
+                rutas.add(a);
+            }
+        }
+
+        return rutas;
+
     }
 
     @Override
@@ -44,30 +57,54 @@ public class RutaRepositoey implements IRutasRepository {
     public Long guardarReturID(Ruta ruta) throws SQLException {
         String sql;
         Long resultado = -1L;
-        sql = "INSERT INTO RUTAS (ID_RURA,CAMION_ID,CHOFER_ID,DIRECCION_ORIGINAL_ID," +
-                "DIRECCION_DESTINO_ID,DIATANCIO,FECHA_SALIDA,FECHA_LLEGADA_ESTIMADA," +
-                "FECHA_LLEGADA_REAL,ATIEMPO) VALUES (SEQUENCE_4.NEXTVAL,?,?,?,?,?,?,?,?,?)";
+        sql = "INSERT INTO RUTAS (ID_RUTA,ID_CAMION,ID_DIRECCION_ORIGEN," +
+                "ID_DIRECCION_DESTINO,ID_CHOFER,DISTANCIA,FECHA_SALIDA, " +
+                "FECHA_LLEGADA_ESTIMADA,FECHA_LLEGADA_REAL,A_TIEMPO) " +
+                "VALUES (SEQUENCE_4.NEXTVAL,?,?,?,?,?,?,?,?,?)";
 
-        try (PreparedStatement stm = conn.prepareStatement(sql, new String[] { "ID_RURA" })) {
+        try (PreparedStatement stm = conn.prepareStatement(sql, new String[] { "ID_RUTA" })) {
 
             stm.setLong(1, ruta.getCamionId());
-            stm.setLong(2, ruta.getChoferId());
-            stm.setLong(3, ruta.getDireccionOriginalId());
-            stm.setLong(4, ruta.getDireccionDestinoId());
+
+            stm.setLong(2, ruta.getDireccionOriginalId());
+            stm.setLong(3, ruta.getDireccionDestinoId());
+            stm.setLong(4, ruta.getChoferId());
             stm.setFloat(5, ruta.getDiatancio());
             stm.setDate(6, Date.valueOf(ruta.getFechaSalida()));
             stm.setDate(7, Date.valueOf(ruta.getFechaLlegadaEstimada()));
             stm.setDate(8, Date.valueOf(ruta.getFechaLlegadaEstimada()));
             stm.setInt(9, ruta.getaTiempo());
-            stm.executeUpdate();
-            ResultSet rs = stm.getGeneratedKeys();
 
-            if (rs.next()) {
-                resultado = rs.getLong(1);
+            int executeUpdate = stm.executeUpdate();
+
+            if (executeUpdate > 0) {
+                try (ResultSet rs = stm.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        resultado = rs.getLong(1);
+                    }
+
+                }
             }
 
+            return resultado;
+
         }
-        return resultado;
+
+    }
+
+    private Ruta getRuta(ResultSet rs) throws SQLException {
+        Ruta a = new Ruta();
+        a.setId(rs.getLong("ID_RUTA"));
+        a.setCamionId(rs.getLong("ID_CAMION"));
+        a.setDireccionOriginalId(rs.getLong("ID_DIRECCION_ORIGEN"));
+        a.setDireccionDestinoId(rs.getLong("ID_DIRECCION_DESTINO"));
+        a.setChoferId(rs.getLong("ID_CHOFER"));
+        a.setDiatancio(rs.getFloat("DISTANCIA"));
+        a.setFechaSalida(rs.getDate("FECHA_SALIDA").toLocalDate());
+        a.setFechaLlegadaEstimada(rs.getDate("FECHA_LLEGADA_ESTIMADA").toLocalDate());
+        a.setFechaLlegadaReal(rs.getDate("FECHA_LLEGADA_REAL").toLocalDate());
+        a.setaTiempo(rs.getInt("A_TIEMPO"));
+        return a;
     }
 
 }

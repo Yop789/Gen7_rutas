@@ -2,6 +2,8 @@ package com.lopez.app.rutas.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import com.lopez.app.rutas.models.Chofer;
@@ -20,33 +22,35 @@ public class EliminarChoferServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection conn = (Connection) req.getAttribute("conn");
-
+        Map<String, String> errors = new HashMap<>();
         IService<Chofer> service = new ChoferesService(conn);
         long id;
 
         try {
             id = Long.parseLong(req.getParameter("id"));
-
         } catch (Exception e) {
             id = 0L;
         }
 
-        Chofer chofer = new Chofer();
-
         if (id > 0) {
             Optional<Chofer> optional = service.getByID(id);
-
             if (optional.isPresent()) {
-                service.eliminar(id);
-                resp.sendRedirect(req.getContextPath() + "/choferes/listar");
+                try {
+                    service.eliminar(id);
+                    resp.sendRedirect(req.getContextPath() + "/choferes/listar");
+                    return;
+                } catch (Exception e) {
+                    errors.put("error", "Error al eliminar el chofer: el chofer la se encuentra en la tabla de rutas");
+                }
             } else {
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No se encontro el chofer");
-
+                errors.put("error", "No se encontró el chofer con ID: " + id);
             }
-
         } else {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Error es nulo se deve enviar como parametro en la url");
+            errors.put("error", "ID inválido o no proporcionado en la URL");
         }
+
+        req.setAttribute("errores", errors);
+        req.getRequestDispatcher("/choferes/listar").forward(req, resp);
 
     }
 }

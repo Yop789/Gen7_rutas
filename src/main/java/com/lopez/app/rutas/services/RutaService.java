@@ -2,6 +2,7 @@ package com.lopez.app.rutas.services;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,12 @@ public class RutaService implements IRutaService {
 
     @Override
     public List<Ruta> lista() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'lista'");
+        try {
+            return rutasRepo.lista();
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+
     }
 
     @Override

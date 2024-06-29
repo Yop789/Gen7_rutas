@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %> 
 <%@page import="java.util.*" %>
-<%@page import="com.lopez.app.rutas.models.enums.*" %>
+
+<%@ page import="com.lopez.app.rutas.models.*" %> 
+<%@ page import="com.lopez.app.rutas.models.enums.*" %>
 
 <% 
 Map<String, String> errores = (Map<String, String>) request.getAttribute("errores");
@@ -61,16 +63,15 @@ List<Integer> modelos = (List<Integer>) request.getAttribute("anios");
             </div>
 
             <div class="form-group">
-              <label for="tipoCamion">Tipo de Camion</label>
+              <label for="tipoCamion">Tipo de Camión</label>
               <select
                 name="tipoCamion"
                 class="form-control"
                 aria-label="Default select example"
-                
               >
-                <option  >---selecciona un tipo---</option>
+                <option value="">---selecciona un tipo---</option>
                 <% for (Tipos c : Tipos.values()) { %>
-                  <option value="<%= c %>" <%= c.equals(Tipos.valueOf(request.getParameter("tipoCamion")) )? "selected" : "" %>><%= c %></option>
+                  <option value="<%= c %>" <%= c.name().equals(request.getParameter("tipoCamion")) ? "selected" : "" %>><%= c %></option>
                 <% } %>
               </select>
               <% if (errores != null && errores.containsKey("tipoCamion")) { %>
@@ -87,7 +88,7 @@ List<Integer> modelos = (List<Integer>) request.getAttribute("anios");
               >
                 <option selected>---selecciona un modelo---</option>
                 <% for (Integer m : modelos) { %>
-                  <option value="<%= m %>"><%= m %></option>
+                  <option value="<%= m %>" <%= m.toString().equals(request.getParameter("modeloCamion")) ? "selected" : "" %>><%= m %></option>
                 <% } %>
               </select>
               <% if (errores != null && errores.containsKey("modeloCamion")) { %>
@@ -104,7 +105,7 @@ List<Integer> modelos = (List<Integer>) request.getAttribute("anios");
               >
                 <option selected>---selecciona una marca---</option>
                 <% for (Marcas m : Marcas.values()) { %>
-                  <option value="<%= m %>"><%= m %></option>
+                  <option value="<%= m %>" <%= m.name().equals(request.getParameter("marcaCamion")) ? "selected" : "" %>><%= m %></option>
                 <% } %>
               </select>
               <% if (errores != null && errores.containsKey("marcaCamion")) { %>
