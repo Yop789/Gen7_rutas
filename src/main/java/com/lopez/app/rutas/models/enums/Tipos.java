@@ -5,5 +5,6 @@ public enum Tipos {
     TORTO,
     DOBLE_REMOLQUE,
     VOLTEO,
-    SEMI_REMOLQUE
+    SEMI_REMOLQUE,
+    RTEA
 }

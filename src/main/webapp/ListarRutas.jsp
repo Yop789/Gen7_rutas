@@ -6,6 +6,8 @@
 //recuperamos la lista de choferes que seteamos en el request desde el servlet
 Map<String,String> errores = (Map<String, String>) request.getAttribute("errores");
 List<Ruta> rutas =  (List<Ruta>) request.getAttribute("rutas");
+List<RutaCompleta> rutasCompletas = (List<RutaCompleta>) request.getAttribute("rutasCompleta");
+
 %>
 
 <!DOCTYPE html>
@@ -13,7 +15,7 @@ List<Ruta> rutas =  (List<Ruta>) request.getAttribute("rutas");
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Listar rutas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -48,50 +50,100 @@ List<Ruta> rutas =  (List<Ruta>) request.getAttribute("rutas");
           >
         </div>
       </div>
-
       <div class="row">
-        <div class="col-12">
-          <div class="table-responsive">
-            <table
-              class="table table-bordered table-straped"
-              width="100%"
-              cellspacing="0"
-            >
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>ID_CAMION</th>
-                  <th>ID_DIRECCION_ORIGEN</th>
-                  <th>ID_DIRECCION_DESTINO</th>
-                  <th>ID_CHOFER</th>
-                  <th>DISTANCIA</th>
-                  <th>FECHA_SALIDA</th>
-                  <th>FECHA_LLEGADA_ESTIMADA</th>
-                  <th>FECHA_LLEGADA_REAL</th>
-                  <th>A_TIEMPO</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <% for(Ruta c : rutas){ %>
-                <tr>
-                  <td><%=c.getId()%></td>
-                  <td><%=c.getCamionId()%></td>
-                  <td><%=c.getChoferId()%></td>
-                  <td><%=c.getDireccionOriginalId()%></td>
-                  <td><%=c.getDireccionDestinoId()%></td>
-                  <td><%=c.getDiatancio()%></td>
-                  <td><%=c.getFechaSalida()%></td>
-                  <td><%=c.getFechaLlegadaEstimada()%></td>
-                  <td><%=c.getFechaLlegadaReal()%></td>
-                  <td><%=c.getaTiempo()%></td>                 
-                </tr>
-                <%}%>
-              </tbody>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>CAMIÓN</th>
+                        <th>DIRECCIÓN ORIGEN</th>
+                        <th>DIRECCIÓN DESTINO</th>
+                        <th>CHOFER</th>
+                        <th>DISTANCIA</th>
+                        <th>FECHA SALIDA</th>
+                        <th>FECHA LLEGADA ESTIMADA</th>
+                        <th>FECHA LLEGADA REAL</th>
+                        <th>A TIEMPO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(RutaCompleta c : rutasCompletas) { %>
+                    <tr>
+                        <td><%= c.getRuta().getId() %></td>
+                        <td><%= c.getCamion().getMatricula() %></td>
+                        <td><% 
+                            Direccion direccionOrigen = c.getDireccionOrigen();
+                            if (direccionOrigen != null) {
+                                String direccionCompleta = "";
+                                if (direccionOrigen.getCalle() != null) {
+                                    direccionCompleta += direccionOrigen.getCalle() + " ";
+                                }
+                                if (direccionOrigen.getNumero() != null) {
+                                    direccionCompleta += direccionOrigen.getNumero() + " ";
+                                }
+                                if (direccionOrigen.getColonia() != null) {
+                                    direccionCompleta += direccionOrigen.getColonia() + " ";
+                                }
+                                if (direccionOrigen.getCp() != null) {
+                                    direccionCompleta += direccionOrigen.getCp() + " ";
+                                }
+                                if (direccionOrigen.getCiudad() != null) {
+                                    direccionCompleta += direccionOrigen.getCiudad() + " ";
+                                }
+                                if (direccionOrigen.getEstado() != null) {
+                                    direccionCompleta += direccionOrigen.getEstado();
+                                }
+                                out.print(direccionCompleta.trim());
+                            }
+                            %>
+                        </td>
+                        <td>
+                            <% 
+                            Direccion direccionDestino = c.getDireccionDestino();
+                            if (direccionDestino != null) {
+                                String direccionCompleta = "";
+                                if (direccionDestino.getCalle() != null) {
+                                    direccionCompleta += direccionDestino.getCalle() + " ";
+                                }
+                                if (direccionDestino.getNumero() != null) {
+                                    direccionCompleta += direccionDestino.getNumero() + " ";
+                                }
+                                if (direccionDestino.getColonia() != null) {
+                                    direccionCompleta += direccionDestino.getColonia() + " ";
+                                }
+                                if (direccionDestino.getCp() != null) {
+                                    direccionCompleta += direccionDestino.getCp() + " ";
+                                }
+                                if (direccionDestino.getCiudad() != null) {
+                                    direccionCompleta += direccionDestino.getCiudad() + " ";
+                                }
+                                if (direccionDestino.getEstado() != null) {
+                                    direccionCompleta += direccionDestino.getEstado();
+                                }
+                                out.print(direccionCompleta.trim());
+                            }
+                            %>
+                        </td>
+                        <td><%= c.getChofer().getNombre()+" "+ c.getChofer().getApPaternos() +" "+ c.getChofer().getApMaternos() +" "+ c.getChofer().getLicencias() %></td>
+                        <td><%= c.getRuta().getDiatancio() %></td>
+                        <td><%= c.getRuta().getFechaSalida() %></td>
+                        <td><%= c.getRuta().getFechaLlegadaEstimada() %></td>
+                        <td><%= c.getRuta().getFechaLlegadaReal() %></td>
+                        <td><%= c.getRuta().getaTiempo() %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
             </table>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
+    
+    </div>
+
+   
+
     </div>
   </body>
 </html>

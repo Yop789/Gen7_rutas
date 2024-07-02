@@ -1,6 +1,7 @@
 package com.lopez.app.rutas.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Ruta {
 
@@ -10,9 +11,9 @@ public class Ruta {
     private Long direccionOriginalId;
     private Long direccionDestinoId;
     private Float diatancio;
-    private LocalDate fechaSalida;
-    private LocalDate fechaLlegadaEstimada;
-    private LocalDate fechaLlegadaReal;
+    private LocalDateTime fechaSalida;
+    private LocalDateTime fechaLlegadaEstimada;
+    private LocalDateTime fechaLlegadaReal;
     private Integer aTiempo;
 
     public Long getId() {
@@ -63,27 +64,27 @@ public class Ruta {
         this.diatancio = diatancio;
     }
 
-    public LocalDate getFechaSalida() {
+    public LocalDateTime getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(LocalDate fechaSalida) {
+    public void setFechaSalida(LocalDateTime fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
-    public LocalDate getFechaLlegadaEstimada() {
+    public LocalDateTime getFechaLlegadaEstimada() {
         return fechaLlegadaEstimada;
     }
 
-    public void setFechaLlegadaEstimada(LocalDate fechaLlegadaEstimada) {
+    public void setFechaLlegadaEstimada(LocalDateTime fechaLlegadaEstimada) {
         this.fechaLlegadaEstimada = fechaLlegadaEstimada;
     }
 
-    public LocalDate getFechaLlegadaReal() {
+    public LocalDateTime getFechaLlegadaReal() {
         return fechaLlegadaReal;
     }
 
-    public void setFechaLlegadaReal(LocalDate fechaLlegadaReal) {
+    public void setFechaLlegadaReal(LocalDateTime fechaLlegadaReal) {
         this.fechaLlegadaReal = fechaLlegadaReal;
     }
 

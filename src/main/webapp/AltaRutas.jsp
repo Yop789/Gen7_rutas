@@ -96,12 +96,12 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
           <div class="form-group">
             <label for="FSalida">Fecha Salida</label>
             <input type="datetime-local" id="FSalida" name="FSalida" class="form-control" />
-             <button class="btn btn-primary" onclick=" initMap()">Llegada</button>
+             <%-- <button class="btn btn-primary" onclick=" initMap()">Llegada</button> --%>
           </div>
 
           <div class="form-group">
             <label for="distancia">Distancia</label>
-            <input type="text" id="distancia" name="distancia" class="form-control" />
+            <input type="text" id="distancia" name="distancia" class="form-control" disabled/>
           </div>
         </div>
 
@@ -120,7 +120,7 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
             <div class="row">
                 <div class="col-md-9">
                     <label for="destino">Destino</label>
-                    <input type="text" name="destino" id="destino" class="form-control" />
+                    <input type="text" name="destino" id="destino" class="form-control"  />
                     <input type="hidden" name="idDestino" id="idDestino" class="form-control" />
                 </div>
                 <div class="col-md-3">
@@ -145,12 +145,12 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
 
           <div class="form-group mt-1">
             <label for="FLlegada">Fecha Estimada de Llegada</label>
-            <input type="datetime-local" id="FLlegada" name="FLlegada" class="form-control" />
+            <input type="datetime-local" id="FLlegada" name="FLlegada" class="form-control" disabled />
           </div>
 
           <div class="form-group">
             <label for="capCamion">Capacidad Camión</label>
-            <input type="text" id="capCamion" name="capCamion" class="form-control" />
+            <input type="text" id="capCamion" name="capCamion" class="form-control" disabled />
           </div>
                     
 
@@ -431,6 +431,9 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
            });
       }
       
+      $('#FSalida').change(function() {
+        initMap()
+      });
 
       function initMap() {
             var origin = $("#origen").val();
@@ -460,27 +463,28 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
                  $("#distancia").val( distance);
 
                 var durationSeconds = response.rows[0].elements[0].duration.value;
-                 var seconds = response.rows[0].elements[0].duration.value; // Obtienes los segundos de la duración desde la respuesta
+                var durationSeconds = response.rows[0].elements[0].duration.value; 
+                var seconds = response.rows[0].elements[0].duration.value; 
 
-                  var date = new Date($('#FSalida').val()); // Fecha de salida
-                  var offset = new Date().getTimezoneOffset(); // Offset de la zona horaria local
+                var date = new Date($('#FSalida').val()); 
+                var offset = new Date().getTimezoneOffset(); 
 
-                  // Convertir segundos a días, horas y minutos
-                  var days = Math.floor(seconds / (3600 * 24)); // Días completos
-                  var hours = Math.floor((seconds % (3600 * 24)) / 3600); // Horas restantes
-                  var minutes = Math.floor((seconds % 3600) / 60); // Minutos restantes
+                // Convertir segundos a días, horas y minutos
+                var days = Math.floor(seconds / (3600 * 24)); 
+                var hours = Math.floor((seconds % (3600 * 24)) / 3600);
+                var minutes = Math.floor((seconds % 3600) / 60); 
 
-                  // Agregar días, horas y minutos a la fecha de salida
-                  date.setDate(date.getDate() + days);
-                  date.setHours(date.getHours() + hours);
-                  date.setMinutes(date.getMinutes() + minutes);
+                // Agregar días, horas y minutos a la fecha de salida
+                date.setDate(date.getDate() + days); 
+                date.setHours(date.getHours() + hours); 
+                date.setMinutes(date.getMinutes() + minutes); 
 
-                  // Calcular el offset y establecer la fecha estimada de llegada
-                  $('#FLlegada').val(add_seconds(date, -offset).toISOString().replace("Z", ""));
+                // Calcular el offset y establecer la fecha estimada de llegada
+                $('#FLlegada').val(add_seconds(date, -offset).toISOString().replace("Z", ""));
 
-                  function add_seconds(dt, seconds) {
-                      return new Date(dt.getTime() + seconds * 1000);
-                  }
+                function add_seconds(dt, offset) {
+                    return new Date(dt.getTime() + offset * 60000); // Suma el offset en milisegundos
+                }
             }
         }
 
@@ -509,7 +513,7 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
                       window.location.href = 'http://localhost:8080/Gen7_ruta/rutas/listar';
                   },
                   error: function(xhr, status, error) {
-                     alert("No se pudo realisar la peticion intentalo nuevamente")
+                     alert("LLena cada uno de los campos y agrega al menos un cargamento ")
                   }
               
            });
@@ -525,7 +529,7 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
             }
             cargamentos.push(cargamento);
             actualizarTabla();
-            console.log(cargamentos);
+            limpiarCarga();
         }
 
         function actualizarTabla() {
@@ -541,12 +545,17 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
                 '</tr>'
                 );
             });
+            
         }
 
         function eliminarCargamento(id) {
             console.log(id)
            cargamentos = cargamentos.filter(element => element.id !== id);
             $('#row-' + id).remove();
+        }
+        function limpiarCarga(){
+          var descripcionC = $("#descripcionC").val("");
+            var pesoC = $("#pesoC").val("");
         }
 
       

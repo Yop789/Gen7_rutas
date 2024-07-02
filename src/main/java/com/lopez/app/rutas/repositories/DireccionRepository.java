@@ -1,6 +1,7 @@
 package com.lopez.app.rutas.repositories;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,8 +33,18 @@ public class DireccionRepository implements IRepository<Direccion> {
 
     @Override
     public Direccion get(Long id) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        Direccion d = null;
+        try (PreparedStatement stm = conn.prepareStatement("SELECT * FROM DIRECCIONES WHERE ID_DIRECCION=?")) {
+            stm.setLong(1, id);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    d = this.getDireccion(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return d;
     }
 
     @Override

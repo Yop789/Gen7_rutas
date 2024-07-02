@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import java.util.Date;
@@ -59,16 +59,17 @@ public class AltaRutaServlet extends HttpServlet {
 
         try {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-            LocalDate fechaFSalida;
-            LocalDate fechaFLlegada;
-            Date date = inputFormat.parse(fSalida);
-            String fechaFomat = outputFormat.format(date);
-            fechaFSalida = LocalDate.parse(fechaFomat, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-            Date date2 = inputFormat.parse(fLlegada);
-            String fechaFomat2 = outputFormat.format(date2);
-            fechaFLlegada = LocalDate.parse(fechaFomat2, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            Date dateSalida = inputFormat.parse(fSalida);
+            String fechaSalidaFormateada = outputFormat.format(dateSalida);
+            LocalDateTime fechaFSalida = LocalDateTime.parse(fechaSalidaFormateada,
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+
+            Date dateLlegada = inputFormat.parse(fLlegada);
+            String fechaLlegadaFormateada = outputFormat.format(dateLlegada);
+            LocalDateTime fechaFLlegada = LocalDateTime.parse(fechaLlegadaFormateada,
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 
             Ruta ruta = new Ruta();
             ruta.setCamionId(camion);
@@ -118,15 +119,14 @@ public class AltaRutaServlet extends HttpServlet {
                     cargmento.guardar(cargamento);
                     i++;
                 }
-                resp.sendRedirect(req.getContextPath() + "/rutas/listar");
+
             } else {
                 req.setAttribute("errores", errores);
-                getServletContext().getRequestDispatcher("/AltaRutas.jsp").forward(req, resp);
+
             }
         } catch (Exception e) {
             errores.put("error", e.getMessage());
             req.setAttribute("errores", errores);
-            getServletContext().getRequestDispatcher("/AltaRutas.jsp").forward(req, resp);
 
         }
 

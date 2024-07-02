@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +71,9 @@ public class RutaRepositoey implements IRutasRepository {
             stm.setLong(3, ruta.getDireccionDestinoId());
             stm.setLong(4, ruta.getChoferId());
             stm.setFloat(5, ruta.getDiatancio());
-            stm.setDate(6, Date.valueOf(ruta.getFechaSalida()));
-            stm.setDate(7, Date.valueOf(ruta.getFechaLlegadaEstimada()));
-            stm.setDate(8, Date.valueOf(ruta.getFechaLlegadaEstimada()));
+            stm.setTimestamp(6, Timestamp.valueOf(ruta.getFechaSalida()));
+            stm.setTimestamp(7, Timestamp.valueOf(ruta.getFechaLlegadaEstimada()));
+            stm.setTimestamp(8, Timestamp.valueOf(ruta.getFechaLlegadaEstimada()));
             stm.setInt(9, ruta.getaTiempo());
 
             int executeUpdate = stm.executeUpdate();
@@ -100,9 +101,9 @@ public class RutaRepositoey implements IRutasRepository {
         a.setDireccionDestinoId(rs.getLong("ID_DIRECCION_DESTINO"));
         a.setChoferId(rs.getLong("ID_CHOFER"));
         a.setDiatancio(rs.getFloat("DISTANCIA"));
-        a.setFechaSalida(rs.getDate("FECHA_SALIDA").toLocalDate());
-        a.setFechaLlegadaEstimada(rs.getDate("FECHA_LLEGADA_ESTIMADA").toLocalDate());
-        a.setFechaLlegadaReal(rs.getDate("FECHA_LLEGADA_REAL").toLocalDate());
+        a.setFechaSalida(rs.getTimestamp("FECHA_SALIDA").toLocalDateTime());
+        a.setFechaLlegadaEstimada(rs.getTimestamp("FECHA_LLEGADA_ESTIMADA").toLocalDateTime());
+        a.setFechaLlegadaReal(rs.getTimestamp("FECHA_LLEGADA_REAL").toLocalDateTime());
         a.setaTiempo(rs.getInt("A_TIEMPO"));
         return a;
     }

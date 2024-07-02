@@ -24,7 +24,12 @@ List<Chofer> choferes =  (List<Chofer>) request.getAttribute("choferes");
 
    <%@ include file="Header.jsp" %>
     
-          <br>
+          
+
+    <div class="container">
+    
+      <div class="row">
+      <br>
           <% if(errores != null && errores.size() > 0){ %>
             <ul class="alert alert-danger mx-5 px-5">
 
@@ -34,9 +39,6 @@ List<Chofer> choferes =  (List<Chofer>) request.getAttribute("choferes");
 
             </ul>
           <% } %>
-
-    <div class="container">
-      <div class="row">
         <div class="col-6">
           <h2>listado choferes</h2>
         </div>

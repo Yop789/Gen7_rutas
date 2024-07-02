@@ -24,6 +24,10 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
 
   <%@ include file="Header.jsp" %>
 
+
+    <div class="container">
+      <div class="row">
+      
    <br>
           <% if(errores != null && errores.size() > 0){ %>
             <ul class="alert alert-danger mx-5 px-5">
@@ -34,9 +38,6 @@ Map<String,String> errores = (Map<String, String>) request.getAttribute("errores
 
             </ul>
           <% } %>
-
-    <div class="container">
-      <div class="row">
         <div class="col-6">
           <h2>listado de Camiones</h2>
         </div>

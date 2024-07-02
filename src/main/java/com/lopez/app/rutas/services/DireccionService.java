@@ -27,8 +27,11 @@ public class DireccionService implements IService<Direccion> {
 
     @Override
     public Optional<Direccion> getByID(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByID'");
+        try {
+            return Optional.ofNullable(direcionRepo.get(id));
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
